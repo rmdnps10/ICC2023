@@ -42,21 +42,28 @@ function setup() {
   console.log(windowHeight);
   boundary_left = new Boundary(0, height / 2, 2, height, 0); // 가상왼쪽벽
   boundary_right = new Boundary(width, height / 2, 2, height, 0); // 가상오른쪽벽
-  boundary_1 = new Boundary(width / 4, height / 2, width / 3, 1, -PI / 5);
-  boundary_2 = new Boundary((width / 4) * 3, height / 2, width / 3, 1, PI / 5);
+  boundary_1 = new Boundary(width / 4, height / 3, width / 4, 1, -PI / 5);
+  boundary_2 = new Boundary((width / 4) * 3, height / 3, width / 4, 1, PI / 5);
+  boundary_3 = new Boundary(
+    (width / 100) * 34,
+    (height / 10) * 2,
+    width / 5,
+    1,
+    -PI / 4
+  );
   hourglass_left = new Boundary(
     width / 4,
     height / 2,
     (width / 3) * 2,
     5,
-    -PI / 2 - PI / 36
+    -PI / 2 - PI / 6
   );
   hourglass_right = new Boundary(
     (width / 4) * 3,
     height / 2,
     (width / 3) * 2,
     5,
-    -PI / 2 + PI / 36
+    -PI / 2 + PI / 6
   );
 
   const boxImages = [
@@ -87,10 +94,19 @@ function mouseClicked() {
 
 function draw() {
   background("white");
+  c1 = color(255, 255, 255);
+  c2 = color(0, 0, 0);
+  for (let y = 0; y < height; y++) {
+    n = map(y, 0, height, 0, 1);
+    let newc = lerpColor(c1, c2, n);
+    stroke(newc);
+    line(0, y, width, y);
+  }
+
   Matter.Engine.update(engine);
 
   for (let box of boxes1) {
     box.show();
-    box.updateImage(350);
+    if (frameCount < 500) box.updateImage((height / 789) * 320);
   }
 }
